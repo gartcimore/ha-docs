@@ -18,7 +18,7 @@ and add:
 ```yaml
 #Showing the state of a temperature in a template card:
 {{ states('sensor.a_temp_sensor') }}°C / {{ states('sensor.xxx_humidity_sensor')}} 💧
-```yaml
+```
 
 in the mushroom template card *Primary information*
 
