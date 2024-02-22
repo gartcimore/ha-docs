@@ -7,6 +7,12 @@ https://hacs.xyz/
 install mushroom cards from HACS
 https://github.com/piitaya/lovelace-mushroom
 
+install custom brand icons
+https://github.com/elax46/custom-brand-icons
+
+install Weather Chart Card
+https://github.com/mlamberts78/weather-chart-card
+
 for the mobile dashboard using mushrooms cards, in the entity card for the room add :
 ```yaml
 {% if is_state('light.a_light_for_this_room', 'on') %}
