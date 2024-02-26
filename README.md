@@ -387,3 +387,49 @@ action:
           title: "HA: plants"
 mode: single
 ```
+
+## Start timer for laundry
+Start the timer for laundry. A helper timer named *laundry* needs to exists. The duration is set there
+
+```yaml
+alias: Tag Laundry is scanned
+description: ""
+trigger:
+  - platform: tag
+    tag_id: 7124c1e1-03ff-47b4-baf3-7be96c0c1bb2
+condition: []
+action:
+  - service: timer.start
+    metadata: {}
+    data: {}
+    target:
+      entity_id: timer.laundry
+mode: single
+```
+
+## Notify when timer for laundry is done
+when the timer for laundry, started by scanning NFC tag, is done then send a notifications to the phones
+
+```yaml
+alias: laundry done
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - timer.laundry
+    to: idle
+    from: active
+condition: []
+action:
+  - service: notify.mobile_app_pocophone_f1
+    metadata: {}
+    data:
+      message: linge propre 🧼 👕
+      title: "HA : lave-linge"
+  - service: notify.mobile_app_chas_phone
+    metadata: {}
+    data:
+      title: "HA : washing machine"
+      message: linge propre 🧼 👕
+mode: single
+```
