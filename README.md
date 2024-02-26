@@ -4,6 +4,14 @@ Home Assistant notes
 # install HACS
 https://hacs.xyz/
 
+# integrations
+
+install workday
+https://www.home-assistant.io/integrations/workday/
+
+Time & Date
+https://www.home-assistant.io/integrations/time_date/
+
 install mushroom cards from HACS
 https://github.com/piitaya/lovelace-mushroom
 
@@ -12,6 +20,12 @@ https://github.com/elax46/custom-brand-icons
 
 install Weather Chart Card
 https://github.com/mlamberts78/weather-chart-card
+
+# blueprints
+https://community.home-assistant.io/t/wake-up-light-alarm-with-sunrise-effect/255193
+
+https://community.home-assistant.io/t/low-battery-notifications-actions/653754
+
 
 for the mobile dashboard using mushrooms cards, in the entity card for the room add :
 ```yaml
@@ -70,6 +84,18 @@ binary_sensor:
             mdi:thumb-down
           {% endif %}
         value_template: "{{ is_state('person.XX','home') or is_state('person.YY','home') }}"
+ ```
+
+# Template
+helper/template for knowing if it is a workday. Need workday integration and calendar, and a calendar named vacances
+
+```yaml
+binary_sensor:
+  - platform: template
+    sensors:
+      boulot:
+        friendly_name: Jour de travail
+        {{ is_state("binary_sensor.workday_sensor", "on") and not is_state("calendar.vacances", "on") }}
  ```
 
 
