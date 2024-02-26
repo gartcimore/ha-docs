@@ -338,6 +338,7 @@ mode: single
 ```
 
 ## When NFC tag is scanned for plants
+Store in an input date time when plants are watered
 ```yaml
 alias: Tag Plants is scanned
 description: ""
@@ -352,5 +353,37 @@ action:
       datetime: "{{ now() }}"
     target:
       entity_id: input_datetime.plants_last_time_watered
+mode: single
+```
+
+## Check if plants have been watered less than 14 days ago
+check on Sunday (isoweekday() ==0) if plants have been watered less than 14 days ago. Compare current time (now()) to stored time from NFC tag
+```yaml
+alias: push plants need water
+description: ""
+trigger:
+  - platform: template
+    value_template: "{{ now().isoweekday() == 0 }}"
+condition:
+  - condition: template
+    value_template: >-
+      {{ now()|as_timestamp -
+      as_timestamp(state_attr("input_datetime.plants_last_time_watered",
+      "timestamp") | timestamp_local ) > 14 * 24 * 60 * 60  }}
+action:
+  - service: notify.mobile_app_pocophone_f1
+    metadata: {}
+    data:
+      message: 🪴 Plants needs water ! 🚰
+      title: "HA: plants"
+  - if:
+      - condition: state
+        entity_id: person.chastity
+        state: home
+    then:
+      - service: notify.mobile_app_chas_phone
+        data:
+          message: 🪴 Plants needs water ! 🚰
+          title: "HA: plants"
 mode: single
 ```
