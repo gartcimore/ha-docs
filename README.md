@@ -336,3 +336,21 @@ action:
               entity_id: input_boolean.vacances_helper
 mode: single
 ```
+
+## When NFC tag is scanned for plants
+```yaml
+alias: Tag Plants is scanned
+description: ""
+trigger:
+  - platform: tag
+    tag_id: e0ce9ca3-fe75-4a48-b2aa-72296939befa
+condition: []
+action:
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: "{{ now() }}"
+    target:
+      entity_id: input_datetime.plants_last_time_watered
+mode: single
+```
