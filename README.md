@@ -44,6 +44,11 @@ State template :
 }}
 ```
 
+Check if today is Sunday
+```yaml
+{{ now().isoweekday() == 0 }}
+```
+
 and state class : Total
 in the dashboard, add a chip card based on entity and select the helper created.
 
