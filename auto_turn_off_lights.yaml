@@ -1,0 +1,32 @@
+alias: "Auto Turn Off Lights When Away"
+description: "Turn off lights that have been on for more than 2 hours when nobody is home and no guests are present"
+trigger:
+  - platform: time_pattern
+    minutes: "0"
+condition:
+  - condition: state
+    entity_id: binary_sensor.someone_home
+    state: "off"
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: "off"
+action:
+  - variables:
+      lights_to_turn_off: >
+        {{ states.light 
+           | selectattr('state', 'eq', 'on') 
+           | selectattr('last_changed', 'lt', now() - timedelta(hours=2))
+           | map(attribute='entity_id') 
+           | list }}
+  - repeat:
+      for_each: "{{ lights_to_turn_off }}"
+      sequence:
+        - service: light.turn_off
+          target:
+            entity_id: "{{ repeat.item }}"
+        - service: notify.notify
+          data:
+            title: "Light Auto-Off"
+            message: "Turned off {{ state_attr(repeat.item, 'friendly_name') }} - on for 2+ hours with nobody home"
+mode: parallel
+max: 50
