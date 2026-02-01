@@ -1,6 +1,11 @@
 # ha-docs
 Home Assistant notes
 
+## Documentation
+
+- [Heater Setup](heater-setup.md) - Pilot wire heating system configuration with generic thermostat
+- [Cleanup Playbook](cleanup-playbook.md) - Maintenance and cleanup procedures
+
 # install HACS
 https://hacs.xyz/
 
